@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import { Card } from "antd";
 import Avatar from "antd/lib/avatar/avatar";
 import Meta from "antd/lib/card/Meta";

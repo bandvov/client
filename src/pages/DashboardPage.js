@@ -24,12 +24,18 @@ function DashboardPage({ socket }) {
   const [messages, setMessages] = useState([]);
   const [top, setTop] = useState(0);
   const [ownerId, setOwnerId] = useState("");
-  console.log(chatrooms);
+
+  const lastMessageRef = useRef();
   const refContainer = useRef();
 
   const onScroll = () => {
     setTop(refContainer.current.scrollTop);
   };
+  useEffect(() => {
+    lastMessageRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
+  }, [messages]);
 
   const sendMessage = () => {
     if (socket) {
@@ -110,6 +116,8 @@ function DashboardPage({ socket }) {
     if (socket) {
       socket.on("newMessage", (data) => {
         setMessages((messages) => [...messages, data]);
+ 
+  
       });
       socket.on("newRoomCreated", () => {
         getChatrooms();
@@ -386,6 +394,7 @@ function DashboardPage({ socket }) {
             style={{ overflow: "auto", height: "60vh" }}
           >
             <div>{mappedMessages}</div>
+            <div ref={lastMessageRef}></div>
           </div>
           {activeRoomId && (
             <div
